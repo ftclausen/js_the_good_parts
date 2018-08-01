@@ -1,6 +1,6 @@
 var fruitBasket = {
   contents: function(magic, stuff) {
-    return "The contents are: '" + this.things + "' with magic '" + magic + "' stuff '" + stuff + "'";
+    return "The contents are: '" + this.things + "' with magic '" + magic + "'";
   }
 }
 
@@ -9,8 +9,15 @@ var someBasket = {
 }
 
 console.log("Before apply");
-console.log(fruitBasket.contents());
+// The contents are: 'undefined' with magic 'undefined'
+console.log("\t" + fruitBasket.contents());
+
 console.log("After apply with redefining this");
-console.log(fruitBasket.contents.apply(someBasket, ["some", "STUFFFF"]));
+// The contents are: 'apple orange kiwi' with magic 'some'
+// Redfine my 'this'          to be someBasket
+// fruitBasket.contents.apply(someBasket, ["some"])
+console.log("\t" + fruitBasket.contents.apply(someBasket, ["some"]));
+
 console.log("After apply without redefining this (just want args)");
-console.log(fruitBasket.contents.apply(null, ["some", "STUFFFF"]));
+// The contents are: 'undefined' with magic 'some'
+console.log("\t" + fruitBasket.contents.apply(null, ["some"]));

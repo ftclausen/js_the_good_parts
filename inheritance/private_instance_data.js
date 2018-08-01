@@ -67,8 +67,8 @@ console.log('Direct: ' + myCat.always_plus_one);
 // Super methods
 //
 Object.method('superior', function(name) {
-  var that = this, method = that[name];
+  var that = this, from_super_method = that[name];
   return function() {
-    return method.apply(that, arguments);
+    return from_super_method.apply(that, arguments);
   };
 });
