@@ -32,7 +32,7 @@ var myMammal = mammal({name: 'Herb mc berb'});
 var cat = function(spec) {
   spec.saying = spec.saying || 'meow';
   var that = mammal(spec);
-  var always_plus_one = 0;
+  var cuteLevel = 10;
 
   that.purr = function(n) {
     var i, s = '';
@@ -46,11 +46,7 @@ var cat = function(spec) {
   };
 
   that.get_name = function() {
-    return that.says() + ' ' + spec.name + ' ' + that.says();
-  };
-
-  that.plus = function() {
-    return always_plus_one + 1;
+    return that.says() + ' ' + spec.name + ' ' + that.says() + '. With cute level ' + cuteLevel;
   };
 
   return that;
@@ -61,8 +57,6 @@ var myCat = cat({name: 'Ziggy super cat'});
 // console.log(myCat.get_name());
 // console.log(myCat.purr(5));
 // console.log(myCat.says());
-// console.log('Via func: ' + myCat.plus());
-// console.log('Direct: ' + myCat.always_plus_one);
 
 //
 // Super methods
@@ -74,6 +68,7 @@ Object.method('superior', function(name) {
   // SO that is `cat` and take its given 'name' method which will
   // be `get_name` below
   var that = this, from_super_method = that[name];
+  console.log('The cute level I can see from superior is: ' + that.cuteLevel);
   return function() {
     // return from_super_method()
     //     from_super_method will use that as THIS
@@ -82,6 +77,7 @@ Object.method('superior', function(name) {
 });
 
 var coolcat = function(spec) {
+  var cuteLevel = 11;
   var that = cat(spec);
   var super_get_name = that.superior('get_name');
   that.get_name = function(b) {
