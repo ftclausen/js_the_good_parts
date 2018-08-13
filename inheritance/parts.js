@@ -23,7 +23,11 @@ var eventuality = function(that) {
       allHandlers = registry[type];
       for (var i = 0; i < allHandlers.length; i += 1) {
         handler = allHandlers[i];
-        // EXPLAIN ???
+        // We can have two types of handlers:
+        // - An internal handler that's function on the object we're retrofitting
+        // event handling onto. That handler will just be a regular method
+        // associated with our retrofitted object
+        // - An external handler that's a function defined elsewhere and passed in
         func = handler.method
         if (typeof func === 'string') {
           func = this[func];
@@ -63,10 +67,17 @@ var freddoObject = {
   name: 'freddo'
 };
 
+var arkieObject = {
+  name: 'arkie',
+  arkieHandler: function(data) {
+    console.log('Running the bundled with object handler for arkie! With data ===> ' + data);
+  }
+}
+
 freddoObject = eventuality(freddoObject);
 var myHandler = function(data) {
   if (data) {
-    console.log('Running handler for freddo! With data ' + data);
+    console.log('Running external handler for freddo! With data ===> ' + data);
   }
 };
 
@@ -74,3 +85,7 @@ freddoObject.on('myEvent', myHandler, ['some data weee']);
 freddoObject.fire('myEvent');
 freddoObject.on('myEventNoParam', myHandler);
 freddoObject.fire('myEventNoParam');
+
+arkieObject = eventuality(arkieObject);
+arkieObject.on('arkieEvent', 'arkieHandler', ['some data for Arkie handler']);
+arkieObject.fire('arkieEvent');
